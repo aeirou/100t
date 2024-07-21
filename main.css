@@ -1,0 +1,23 @@
+.bg-img {
+    background-image: url('./static/backgroundlogotrans.svg');
+    background-repeat: no-repeat;
+    background-size: 30vh;
+    background-position: center;
+    background-attachment: fixed;
+}
+.logo-nav {
+    padding-right: 10px;
+}
+.motto-nav {
+    padding-left: 10px;
+}
+.welcome-banner {
+    background-size: cover;
+    background-color: white;
+    height: 90vh;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+
+}
