@@ -31,18 +31,6 @@ include'includes/basehead.html'
         </div>
     </div>
 
-    <h1 id="test-header">Hello, World!</h1>
-
-    <script>
-        // Test jQuery functionality
-        $(document).ready(function(){
-            // Change the text of the header
-            $("#test-header").text("jQuery is working!");
-            
-            // Display an alert to confirm jQuery is loaded
-            alert("jQuery ifasdfass successfully loaded and working!");
-        });
-    </script>
 
 </body>
 
