@@ -13,6 +13,9 @@ body {
     background-position: center;
     background-attachment: fixed;
 }
+.reg_bg {
+    background-color: #112241;
+}
 .navbar {
     color: #5D737E;
 }

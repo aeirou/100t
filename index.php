@@ -19,9 +19,9 @@ include'includes/basehead.html'
             <div class="hstack gap-3">
                 <p class="lead text-secondary mb-4 text-shadow-1">Christchurch Adventist School</p>
                 <div class="vr mb-4"></div>
-                <p class="lead mb-4 text-secondary text-shadow-1 fw-bold">100th Anniversary</p>
+                <p class="lead mb-4 text-secondary text-shadow-1 fw-bold">Since 1925</p>
             </div>
-        </div>
+    </div>
 
     <div class="welcome-banner">
         <div class="row p-5">
