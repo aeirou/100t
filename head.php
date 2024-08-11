@@ -45,7 +45,7 @@
                     </li>
 
                     <li class="nav-item px-3">
-                        <a class="nav-link" href="#">Sign In</a>
+                        <a class="nav-link" href="login.php">Sign In</a>
                     </li>
 
                     <li class="nav-item px-3">
