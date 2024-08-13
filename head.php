@@ -29,7 +29,7 @@ session_start();
                         </li>
 
                         <li class="nav-item px-3">
-                            <a class="nav-link text-dark" href="#">Store</a>
+                            <a class="nav-link text-dark" href="store.php">Store</a>
                         </li>
 
                         <a class="nav-link px-3" href="cart.php">
