@@ -1,12 +1,19 @@
 <?php
 require_once'includes/basehead.html';
 require_once'includes/connect.inc';
+session_start();
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 $errors = array();
+
+if (isset($_SESSION['login'])) {
+    $_SESSION['danger'] = 'You are already logged in!';
+    header('Location: index.php');
+    exit();
+}
 
 if (isset($_POST['login'])) {
 
@@ -33,17 +40,19 @@ if (isset($_POST['login'])) {
         $q = "SELECT * FROM user WHERE (email = '$e' OR username = '$e' AND password = SHA1('$p'))";
         $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
         
-
+        // match was made
         if (@mysqli_num_rows($r) == 1) {
-            // match was made
 
-            // register user
+            // register user - stores info using session in order to be accessed across different pages
             $_SESSION = mysqli_fetch_array($r, MYSQLI_ASSOC);
+            $_SESSION['login'] = true; 
+
             mysqli_free_result($r);
             mysqli_close($conn);
 
             // define url and redirect user
             ob_end_clean();
+            $_SESSION['message'] = 'You have succesfully logged in!';
             // delete the buffer
             header("Location:index.php");
 
@@ -102,8 +111,7 @@ if ($errors) {
 
                                             <div data-mdb-input-init class="form-outline">
                                                 <label class="form-label" for="usern_email">Username or Email</label>
-                                                <input type="text" name="usern_email" class="form-control form-control-md" placeholder="Username or Email"
-                                                value="<?php if (isset($trimmed['username'])) echo $trimmed['username']; ?>" />                                                
+                                                <input type="text" name="usern_email" class="form-control form-control-md" placeholder="Username or Email"/>                                                
                                             </div>
 
                                         </div>
@@ -116,8 +124,7 @@ if ($errors) {
 
                                             <div data-mdb-input-init class="form-outline">
                                                 <label class="form-label" for="password1">Password</label>
-                                                <input type="password" name="pass" class="form-control form-control-md" placeholder="Password"
-                                                value="<?php if (isset($trimmed['password1'])) echo $trimmed['password1']; ?>" />      
+                                                <input type="password" name="pass" class="form-control form-control-md" placeholder="Password"/>      
                                                 <br>
                                                 <small class="form-text text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
                                             </div>

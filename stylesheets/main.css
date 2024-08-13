@@ -5,30 +5,48 @@ html,body
     margin: 0px;
     padding: 0px;
     overflow-x: hidden; 
+    font-family: 'Work Sans', sans-serif !important;
 }
 body {
-    background-image: url('./static/backgroundlogotrans.svg');
+    background-image: url('static/backgroundlogotrans.svg');
     background-repeat: no-repeat;
     background-size: 30vh;
     background-position: center;
     background-attachment: fixed;
 }
+.nav {
+    background-color: white;
+}
+.required-field::after {
+    content: "*";
+    color: red;
+}
+.dropdown-menu {
+    margin-bottom: 2px;
+    padding-bottom: 0px;
+    margin-top: 2px;
+    padding-top: 0px;
+}
+.dropdown-item {
+    border-radius: 5px;
+}
 .reg_bg {
     background-color: #112241;
 }
-.navbar {
-    color: #5D737E;
-}
 .welcome-banner {
-    background-size: cover;
-    background-color: transparent;
+    background-image: url("static/schoool.jpg");
     height: 90vh;
 }
-
-.frontlogo:hover {
-    transform: scale(1.1);
-
+.welcome-text {
+    color: #448FA3;
+    font-size: 80px;
 }
+.welcome-text2 {
+    color: #448FA3;
+    font-size: 100px;
+}
+
 .lead {
     font-size: 1rem;
+    color: #448FA3;
 }
