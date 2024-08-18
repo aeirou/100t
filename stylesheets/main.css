@@ -14,9 +14,6 @@ body {
     background-position: center;
     background-attachment: fixed;
 }
-.nav {
-    background-color: white;
-}
 .required-field::after {
     content: "*";
     color: red;
@@ -34,19 +31,21 @@ body {
     background-color: #112241;
 }
 .welcome-banner {
-    background-image: url("static/schoool.jpg");
+    background-size: cover;
     height: 90vh;
 }
 .welcome-text {
-    color: #448FA3;
+    color: lightgray;
     font-size: 80px;
 }
 .welcome-text2 {
-    color: #448FA3;
+    color: gray;
     font-size: 100px;
 }
-
 .lead {
     font-size: 1rem;
-    color: #448FA3;
+    color: #052F5F;
 }
+#nav.active{
+    background-color: #127189;
+  }

@@ -2,16 +2,16 @@
 require_once'includes/connect.inc';
 session_start();
 ?>
-<nav class="nav navbar-expand-lg p-3 sticky-top">
+<nav class="nav navbar-expand-lg p-3 sticky-top" id="nav">
     <div class="container-fluid">
 
         <div class="row">
 
             <div class="col-4">
-                <a class=" navbar-brand-two me-auto d-sm-flex" href="index.php">                
-                    <img src="static/navbar/100logogold-nav.svg" alt="">
+                <a class="navbar-brand-two d-sm-flex" href="index.php">                
+                    <img class="px-3" src="static/navbar/100logogold-nav.svg" alt="">
                     <div class="vr mb-1 bg-dark"></div>
-                    <img src="static/navbar/motto-nav.svg" alt="">
+                    <img class="px-3" src="static/navbar/motto-nav.svg" alt="">
                 </a>
             </div>
 
@@ -81,3 +81,5 @@ session_start();
         </div>
     </div>
 </nav>
+<?php
+require_once'footer.php';

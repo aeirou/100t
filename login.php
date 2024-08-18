@@ -7,7 +7,8 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-$errors = array();
+// variable that holds a list - list of errors
+$errors = [];
 
 if (isset($_SESSION['login'])) {
     $_SESSION['danger'] = 'You are already logged in!';
@@ -87,65 +88,67 @@ if ($errors) {
 ?>
 
 <body class="reg_bg">
-    <form  action="login.php" method="POST" class="form" id="form">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col">
-                    <div class="card card-registration my-4">
-                        <div class="row g-0">
 
-                            <div class="col-xl-6 d-none d-xl-block">
-                                <a href="index.php">
-                                    <img src="static/100logomottogold.svg" class="img-fluid"
-                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
-                                </a>
+    <div class="col-xl py-2 pt-3 text-center">                            
+        <img src="static/backgroundlogo.svg" class="img-fluid"
+            style="width:100px;"/>
+    </div>
+
+    <form  action="login.php" method="POST" class="form" id="form">
+        <div class="container h-50">           
+            <div class="card my-4">
+                <div class="row g-0">
+
+                    <div class="col-xl-6">
+                        <a href="index.php">
+                            <img src="static/100logomottogold.svg" class="img-fluid"
+                                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
+                        </a>
+                    </div>
+                    
+                    <div class="col-xl-6">
+                        <div class="p-md-5 text-black">
+                            <h3 class="mb-5 text-uppercase">Log In</h3>                        
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="form-label" for="usern_email">Username or Email</label>
+                                        <input type="text" name="usern_email" class="form-control" placeholder="Username or Email"/>                                                
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="form-label" for="password1">Password</label>
+                                        <input type="password" name="pass" class="form-control" placeholder="Password"/>      
+                                        <br>
+                                        <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
+                                    </div>
+
+                                </div>                                    
+
+                            </div>                                   
+
+                            <div class="d-flex justify-content-end pt-3">
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="login" type="submit" value="login">Log In</button>
                             </div>
                             
-                            <div class="col-xl-6">
-                                <div class="card-body p-md-5 text-black">
-                                    <h3 class="mb-5 text-uppercase">Log In</h3>                        
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="form-label" for="usern_email">Username or Email</label>
-                                                <input type="text" name="usern_email" class="form-control form-control-md" placeholder="Username or Email"/>                                                
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="form-label" for="password1">Password</label>
-                                                <input type="password" name="pass" class="form-control form-control-md" placeholder="Password"/>      
-                                                <br>
-                                                <small class="form-text text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
-                                            </div>
-
-                                        </div>                                    
-
-                                    </div>                                   
-
-                                    <div class="d-flex justify-content-end pt-3">
-                                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="login" type="login" value="login">Log In</button>
-                                    </div>
-                                    
-                                </div>
-                            </div>     
-
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
-                            </div>   
-
                         </div>
-                    </div>
+                    </div>     
+
+                    <div class="d-flex justify-content-center">
+                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
+                    </div>   
+
                 </div>
             </div>
         </div>

@@ -46,6 +46,7 @@ session_start();
         unset($_SESSION['danger']);
     }
 
+    // for log out message
     if (isset($_GET['l'])) {
         echo "<div class='alert alert-danger alert-dismissable d-flex align-items-center fade show fixed-top' role='alert'>";
         echo "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-exclamation-triangle-fill flex-shrink-0 me-2' viewBox='0 0 16 16' role='img' aria-label='Warning:'>
@@ -58,20 +59,15 @@ session_start();
             </div>";
     }
     ?>
-    <div class="welcome-banner">
-        <div class="align-item-start">
-                <div class="hstack gap-3">
-                    <p class="lead text-light mb-4 text-shadow-1">Christchurch Adventist School</p>
-                    <div class="text-light vr mb-4"></div>
-                    <p class="lead mb-4 text-light text-shadow-1 fw-bold">Since 1925</p>
-                </div>
-        </div>
-
-        <div class="row">    
-            <div class="col-6 d-flex justify-content-center">
+    <div class="welcome-banner bg-img"
+        style="background-image: url('static/schoool.jpg');
+               background-color: rgba(0, 0, 0, 0.6);">
+  
+        <div class="row mask h-100" style="background-color: rgba(0, 0, 0, 0.6);">    
+            <div class="col-6 px-5 pt-5">
                 <?php
                 if (isset($_SESSION['login'])) {
-                    echo '<h1 class="welcome-text"> Welcome <br>' . $_SESSION['fname'] . '</h1>';
+                    echo '<h1 class="welcome-text"> Welcome <br>' . $_SESSION['fname'] . ',</h1>';
                 } else {
                     echo '<h1 class="welcome-text"> Welcome <br> Guest</h1>';
                 }                
@@ -79,7 +75,73 @@ session_start();
                 <h1 class="welcome-text2"><strong>to the CAS Centenary!</strong></h1>
             </div>
         </div>
+
     </div>
+
+    <div class="col-xl py-2 pt-3 text-center">                            
+        <img src="static/backgroundlogo.svg" class="img-fluid"
+            style="width:100px;"/>
+    </div>
+
+    <form  action="login.php" method="POST" class="form" id="form">
+        <div class="container h-50">           
+            <div class="card my-4">
+                <div class="row g-0">
+
+                    <div class="col-xl-6">
+                        <a href="index.php">
+                            <img src="static/100logomottogold.svg" class="img-fluid"
+                                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
+                        </a>
+                    </div>
+                    
+                    <div class="col-xl-6">
+                        <div class="p-md-5 text-black">
+                            <h3 class="mb-5 text-uppercase">Log In</h3>                        
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="form-label" for="usern_email">Username or Email</label>
+                                        <input type="text" name="usern_email" class="form-control" placeholder="Username or Email"/>                                                
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="form-label" for="password1">Password</label>
+                                        <input type="password" name="pass" class="form-control" placeholder="Password"/>      
+                                        <br>
+                                        <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
+                                    </div>
+
+                                </div>                                    
+
+                            </div>                                   
+
+                            <div class="d-flex justify-content-end pt-3">
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="login" type="submit" value="login">Log In</button>
+                            </div>
+                            
+                        </div>
+                    </div>     
+
+                    <div class="d-flex justify-content-center">
+                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
+                    </div>   
+
+                </div>
+            </div>
+        </div>
+    </form>
 
 
 </body>

@@ -16,8 +16,9 @@ if (isset($_SESSION['login'])) {
 // assumes that default values are invalid
 $u = $fn = $ln = $e = $p = FALSE;
 
-$errors = array();
-$success = array();
+// variable that holds a list - list of errors/success messages
+$errors = [];
+$success = [];
 
 if (isset($_POST['register'])) {
     // trims whitespace of all incoming data
@@ -148,136 +149,138 @@ if ($success) {
 ?>
 
 <body class="reg_bg">
-    <form action="register.php" method="POST" class="form" id="form">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col">
-                    <div class="card card-registration my-4">
-                        <div class="row g-0">
 
-                            <div class="col-xl-6 d-none d-xl-block">
-                                <a href="index.php">
-                                    <img src="static/100logomottogold.svg" class="img-fluid"
-                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
-                                </a>
+    <div class="col-xl py-2 pt-3 text-center">                            
+        <img src="static/backgroundlogo.svg" class="img-fluid"
+            style="width:100px;"/>
+    </div>
+
+    <form action="register.php" method="POST" class="form" id="form">
+        <div class="container h-40">
+            <div class="card card-registration my-4">
+                <div class="row g-0">
+
+                    <div class="col-xl-6 d-none d-xl-block">
+                        <a href="index.php">
+                            <img src="static/100logomottogold.svg" class="img-fluid"
+                                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
+                        </a>
+                    </div>
+                    
+                    <div class="col-xl-6">
+                        <div class="card-body p-md-5 text-black">
+                            <h3 class="mb-5 text-uppercase">Attendee Registration Form</h3>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
+                                        <input type="text" name="first_name" class="form-control form-control-md" placeholder="First Name"
+                                        value="<?php if (isset($trimmed['first_name'])) echo $trimmed['first_name']; ?>" />                                                
+                                        <small class="form-text text-muted">We'll never share your name with anyone else.</small>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="last_name">Last name </label>
+                                        <input type="text" name="last_name" class="form-control form-control-md" placeholder="Last Name"
+                                        value="<?php if (isset($trimmed['last_name'])) echo $trimmed['last_name']; ?>" />
+                                    </div>                                            
+
+                                </div>                                    
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="year_graduated">Year Graduated </label>
+                                        <input name="year_graduated" type="number" class="form-control form-control-md" value="2024" max="2024" min="1925" step="1">
+                                    </div>
+                                
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class=" mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="email">Email </label>
+                                        <input type="text" name="email" class="form-control form-control-md" placeholder="example@gmail.com"
+                                        value="<?php if (isset($trimmed['email'])) echo $trimmed['email']; ?>" />                                                
+                                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="username">Username </label>
+                                        <input type="text" name="username" class="form-control form-control-md" placeholder="johndoe"
+                                        value="<?php if (isset($trimmed['username'])) echo $trimmed['username']; ?>" />
+                                        <small class="form-text text-muted">Username must be greater than 2 and less than 16 characters and without special characters.</small>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="password1">Password </label>
+                                        <input type="password" name="password1" class="form-control form-control-md" placeholder="12345678m"
+                                        value="<?php if (isset($trimmed['password1'])) echo $trimmed['password1']; ?>" />
+                                        <small class="form-text text-muted">Password must have a minimum of 8 and maximum of 20 characters and must contain a letter. </small>
+                                    </div>
+
+                                </div>                                    
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col mb-4">
+
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="required-field form-label" for="password2">Confirm password </label>
+                                        <input type="password" name="password2" class="form-control form-control-md" placeholder="Confirm password"
+                                        value="<?php if (isset($trimmed['password2'])) echo $trimmed['password2']; ?>"/>
+                                        <br>
+                                        <small class="form-text text-muted"><p class="text-dark">Already have an account? <a href="login.php" class="text-primary text-decoration-none"> Sign In</a></p></small>
+                                    </div>
+
+                                </div>
+                            
+                            </div>
+
+                            <div class="d-flex justify-content-end pt-3">
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="register" type="submit">Register</button>
                             </div>
                             
-                            <div class="col-xl-6">
-                                <div class="card-body p-md-5 text-black">
-                                    <h3 class="mb-5 text-uppercase">Attendee Registration Form</h3>
-
-                                    <div class="row">
-
-                                        <div class="col-md-6 mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
-                                                <input type="text" name="first_name" class="form-control form-control-md" placeholder="First Name"
-                                                value="<?php if (isset($trimmed['first_name'])) echo $trimmed['first_name']; ?>" />                                                
-                                                <small class="form-text text-muted">We'll never share your name with anyone else.</small>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-6 mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="last_name">Last name </label>
-                                                <input type="text" name="last_name" class="form-control form-control-md" placeholder="Last Name"
-                                                value="<?php if (isset($trimmed['last_name'])) echo $trimmed['last_name']; ?>" />
-                                            </div>                                            
-
-                                        </div>                                    
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="year_graduated">Year Graduated </label>
-                                                <input name="year_graduated" type="number" class="form-control form-control-md" value="2024" max="2024" min="1925" step="1">
-                                            </div>
-                                        
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class=" mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="email">Email </label>
-                                                <input type="text" name="email" class="form-control form-control-md" placeholder="example@gmail.com"
-                                                value="<?php if (isset($trimmed['email'])) echo $trimmed['email']; ?>" />                                                
-                                                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="username">Username </label>
-                                                <input type="text" name="username" class="form-control form-control-md" placeholder="johndoe"
-                                                value="<?php if (isset($trimmed['username'])) echo $trimmed['username']; ?>" />
-                                                <small class="form-text text-muted">Username must be greater than 2 and less than 16 characters and without special characters.</small>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="password1">Password </label>
-                                                <input type="password" name="password1" class="form-control form-control-md" placeholder="12345678m"
-                                                value="<?php if (isset($trimmed['password1'])) echo $trimmed['password1']; ?>" />
-                                                <small class="form-text text-muted">Password must have a minimum of 8 and maximum of 20 characters and must contain a letter. </small>
-                                            </div>
-
-                                        </div>                                    
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col mb-4">
-
-                                            <div data-mdb-input-init class="form-outline">
-                                                <label class="required-field form-label" for="password2">Confirm password </label>
-                                                <input type="password" name="password2" class="form-control form-control-md" placeholder="Confirm password"
-                                                value="<?php if (isset($trimmed['password2'])) echo $trimmed['password2']; ?>"/>
-                                                <br>
-                                                <small class="form-text text-muted"><p class="text-dark">Already have an account? <a href="login.php" class="text-primary text-decoration-none"> Sign In</a></p></small>
-                                            </div>
-
-                                        </div>
-                                    
-                                    </div>
-
-                                    <div class="d-flex justify-content-end pt-3">
-                                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="register" type="submit">Register</button>
-                                    </div>
-                                    
-                                </div>
-                            </div>     
-
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
-                            </div>   
-
                         </div>
-                    </div>
+                    </div>     
+
+                    <div class="d-flex justify-content-center">
+                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
+                    </div>   
+
                 </div>
             </div>
         </div>
