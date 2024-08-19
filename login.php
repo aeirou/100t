@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <?php
 require_once'includes/basehead.html';
 require_once'includes/connect.inc';
@@ -70,8 +72,9 @@ if (isset($_POST['login'])) {
 ?>
 
 <head>
-   <title>Log In - 100thCAS</title>
+    <title>Log In - 100thCAS</title>
 </head>
+
 
 <?php
 if ($errors) {
@@ -113,12 +116,10 @@ if ($errors) {
                             <div class="row">
 
                                 <div class="col mb-4">
-
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="usern_email">Username or Email</label>
-                                        <input type="text" name="usern_email" class="form-control" placeholder="Username or Email"/>                                                
-                                    </div>
-
+                                    
+                                    <label class="py-2" for="usern_email">Username or Email</label>    
+                                    <input type="text" name="usern_email" id="usern_email" class="form-control" placeholder="Username or Email"/>                                                                                    
+                                
                                 </div>
 
                             </div>
@@ -127,13 +128,11 @@ if ($errors) {
 
                                 <div class="col mb-4">
 
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="password1">Password</label>
-                                        <input type="password" name="pass" class="form-control" placeholder="Password"/>      
-                                        <br>
-                                        <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
-                                    </div>
-
+                                    <label class="py-2" for="password">Password</label>
+                                    <input type="password" name="pass" id="password" class="form-control" placeholder="Password"/>      
+                                    <br>
+                                    <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
+                                
                                 </div>                                    
 
                             </div>                                   
@@ -154,6 +153,8 @@ if ($errors) {
         </div>
     </form>
 </body>
+
+</html>
 
 <?php
 include'footer.php';

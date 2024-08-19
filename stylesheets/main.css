@@ -8,7 +8,7 @@ html,body
     font-family: 'Work Sans', sans-serif !important;
 }
 body {
-    background-image: url('static/backgroundlogotrans.svg');
+    background-image: url('static/backgroundlogo.svg');
     background-repeat: no-repeat;
     background-size: 30vh;
     background-position: center;
@@ -32,20 +32,36 @@ body {
 }
 .welcome-banner {
     background-size: cover;
-    height: 90vh;
+    height: 100vh;
 }
-.welcome-text {
+.text-1 {
     color: lightgray;
     font-size: 80px;
+    padding-top: 120px;
 }
-.welcome-text2 {
+.text-2 {
     color: gray;
     font-size: 100px;
 }
-.lead {
-    font-size: 1rem;
-    color: #052F5F;
+.quote {
+    padding-top: 20vh;
+    padding-right: 10vh;
+    
 }
-#nav.active{
-    background-color: #127189;
+.invalid {
+    background-color: #448FA3;
+}
+.text_invalid {
+    padding: 150px;
+    font-size: 20px;
+}
+.nav {
+  background-color: transparent;
+  position: fixed;
+  width: 100%; 
+  top: 0;
+}
+.nav-active {
+    background-color: red !important;
+    transition: background-color 200ms linear;
   }

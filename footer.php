@@ -1,1 +1,1 @@
-<script type="text/javascript" src="stylesheets/script.js"></script>
+<script type="text/javascript" src="script.js"></script>

@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <?php
 include'includes/basehead.html';
 session_start();
@@ -8,10 +6,10 @@ session_start();
 ?>
 
 <head>
-    <title>Christchurch Adventist School</title>
+    <title>CAS - Home</title>
 </head>
 
-<body>
+</body>
 
     <?php
     require_once'head.php';
@@ -44,10 +42,7 @@ session_start();
 
          // unsets the session 
         unset($_SESSION['danger']);
-    }
-
-    // for log out message
-    if (isset($_GET['l'])) {
+    } elseif (isset($_GET['l'])) {
         echo "<div class='alert alert-danger alert-dismissable d-flex align-items-center fade show fixed-top' role='alert'>";
         echo "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-exclamation-triangle-fill flex-shrink-0 me-2' viewBox='0 0 16 16' role='img' aria-label='Warning:'>
         <path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'/>
@@ -59,6 +54,7 @@ session_start();
             </div>";
     }
     ?>
+
     <div class="welcome-banner bg-img"
         style="background-image: url('static/schoool.jpg');
                background-color: rgba(0, 0, 0, 0.6);">
@@ -67,13 +63,28 @@ session_start();
             <div class="col-6 px-5 pt-5">
                 <?php
                 if (isset($_SESSION['login'])) {
-                    echo '<h1 class="welcome-text"> Welcome <br>' . $_SESSION['fname'] . ',</h1>';
+                    if (isset($_SESSION['admin']) == 1 ){
+                        echo '<h1 class="text-1"> Welcome back, Master <br>' . $_SESSION['fname'] . ',</h1>';            
+                        
+                        } else {
+                            echo '<h1 class="text-1">Welcome <br>' . $_SESSION['fname'] . ',</h1>';                            
+                        }   
                 } else {
-                    echo '<h1 class="welcome-text"> Welcome <br> Guest</h1>';
-                }                
+                    echo '<h1 class="text-1"> Welcome <br> Guest,</h1>';            
+                }
                 ?>
-                <h1 class="welcome-text2"><strong>to the CAS Centenary!</strong></h1>
+                <p class="text-2"><strong>to the CAS Centenary.</strong></p>
             </div>
+            
+            <figure class="quote col-6 text-end text-light">
+                <blockquote class="blockquote">
+                    <p>Educating For Eternity.</p>
+                </blockquote>
+                <figcaption class="blockquote-footer text-light">
+                    <cite title="Source Title">Christchurch Adventist School</cite>
+                </figcaption>
+            </figure>
+
         </div>
 
     </div>
@@ -142,11 +153,7 @@ session_start();
             </div>
         </div>
     </form>
-
-
 </body>
 
-</html>
-
 <?php
-include'footer.php';
+require_once('footer.php');

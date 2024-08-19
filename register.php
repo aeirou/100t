@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <?php
 require_once'includes/basehead.html';
 require_once'includes/connect.inc';
@@ -155,7 +157,7 @@ if ($success) {
             style="width:100px;"/>
     </div>
 
-    <form action="register.php" method="POST" class="form" id="form">
+    <form action="register.php" method="POST" class="form">
         <div class="container h-40">
             <div class="card card-registration my-4">
                 <div class="row g-0">
@@ -177,8 +179,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
-                                        <input type="text" name="first_name" class="form-control form-control-md" placeholder="First Name"
-                                        value="<?php if (isset($trimmed['first_name'])) echo $trimmed['first_name']; ?>" />                                                
+                                        <input type="text" id="first_name" name="first_name" class="form-control form-control-md" placeholder="First Name">                                                
                                         <small class="form-text text-muted">We'll never share your name with anyone else.</small>
                                     </div>
 
@@ -188,8 +189,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="last_name">Last name </label>
-                                        <input type="text" name="last_name" class="form-control form-control-md" placeholder="Last Name"
-                                        value="<?php if (isset($trimmed['last_name'])) echo $trimmed['last_name']; ?>" />
+                                        <input type="text" id="last_name" name="last_name" class="form-control form-control-md" placeholder="Last Name">
                                     </div>                                            
 
                                 </div>                                    
@@ -202,7 +202,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="year_graduated">Year Graduated </label>
-                                        <input name="year_graduated" type="number" class="form-control form-control-md" value="2024" max="2024" min="1925" step="1">
+                                        <input name="year_graduated" id="year_graduated" type="number" class="form-control form-control-md" value="2024" max="2024" min="1925" step="1">
                                     </div>
                                 
                                 </div>
@@ -215,8 +215,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="email">Email </label>
-                                        <input type="text" name="email" class="form-control form-control-md" placeholder="example@gmail.com"
-                                        value="<?php if (isset($trimmed['email'])) echo $trimmed['email']; ?>" />                                                
+                                        <input type="text" name="email" id="email" class="form-control form-control-md" placeholder="example@gmail.com">                                                
                                         <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                                     </div>
 
@@ -230,8 +229,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="username">Username </label>
-                                        <input type="text" name="username" class="form-control form-control-md" placeholder="johndoe"
-                                        value="<?php if (isset($trimmed['username'])) echo $trimmed['username']; ?>" />
+                                        <input type="text" name="username" id="username" class="form-control form-control-md" placeholder="johndoe">
                                         <small class="form-text text-muted">Username must be greater than 2 and less than 16 characters and without special characters.</small>
                                     </div>
 
@@ -245,9 +243,8 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="password1">Password </label>
-                                        <input type="password" name="password1" class="form-control form-control-md" placeholder="12345678m"
-                                        value="<?php if (isset($trimmed['password1'])) echo $trimmed['password1']; ?>" />
-                                        <small class="form-text text-muted">Password must have a minimum of 8 and maximum of 20 characters and must contain a letter. </small>
+                                        <input type="password" name="password1" id="password1" class="form-control form-control-md" placeholder="12345678m">
+                                        <small class="form-text text-muted">Password must have a minimum of 8 and maximum of 20 characters and must contain a letter.</small>
                                     </div>
 
                                 </div>                                    
@@ -260,8 +257,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="password2">Confirm password </label>
-                                        <input type="password" name="password2" class="form-control form-control-md" placeholder="Confirm password"
-                                        value="<?php if (isset($trimmed['password2'])) echo $trimmed['password2']; ?>"/>
+                                        <input type="password" name="password2" id="password2" class="form-control form-control-md" placeholder="Confirm password">
                                         <br>
                                         <small class="form-text text-muted"><p class="text-dark">Already have an account? <a href="login.php" class="text-primary text-decoration-none"> Sign In</a></p></small>
                                     </div>
