@@ -29,6 +29,9 @@ if (isset($_POST['register'])) {
     if (empty($_POST['first_name'] || $_POST['last_name'] || $_POST['year_graduated'] || $_POST['email'] || $_POST['username'] || $_POST['password1'])) {
 		array_push($errors, "Fields empty!");
 	} else {
+            
+            // regex can be used to check specific patterns of all data for search queries as well as validating data,
+            // checking if the input is in the correct format.
 
             // name validation
             $re = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžæÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{0,11}+$/u";
@@ -177,7 +180,7 @@ if ($success) {
 
                                 <div class="col-md-6 mb-4">
 
-                                    <div data-mdb-input-init class="form-outline">
+                                    <div data-mdb-input-init class="form-outline">  <!--for attribute is to link the label and input together.-->
                                         <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
                                         <input type="text" id="first_name" name="first_name" class="form-control form-control-md" placeholder="First Name">                                                
                                         <small class="form-text text-muted">We'll never share your name with anyone else.</small>

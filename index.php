@@ -55,36 +55,40 @@ session_start();
     }
     ?>
 
-    <div class="welcome-banner bg-img"
+    <div class="welcome-banner"
         style="background-image: url('static/schoool.jpg');
-               background-color: rgba(0, 0, 0, 0.6);">
+               background-color: rgba(0, 0, 0, 0.6);
+                background-size: cover;
+                background-position:center;">
+        <div class="container-fluid">
   
-        <div class="row mask h-100" style="background-color: rgba(0, 0, 0, 0.6);">    
-            <div class="col-6 px-5 pt-5">
-                <?php
-                if (isset($_SESSION['login'])) {
-                    if (isset($_SESSION['admin']) == 1 ){
-                        echo '<h1 class="text-1"> Welcome back, Master <br>' . $_SESSION['fname'] . ',</h1>';            
-                        
-                        } else {
-                            echo '<h1 class="text-1">Welcome <br>' . $_SESSION['fname'] . ',</h1>';                            
-                        }   
-                } else {
-                    echo '<h1 class="text-1"> Welcome <br> Guest,</h1>';            
-                }
-                ?>
-                <p class="text-2"><strong>to the CAS Centenary.</strong></p>
-            </div>
-            
-            <figure class="quote col-6 text-end text-light">
-                <blockquote class="blockquote">
-                    <p>Educating For Eternity.</p>
-                </blockquote>
-                <figcaption class="blockquote-footer text-light">
-                    <cite title="Source Title">Christchurch Adventist School</cite>
-                </figcaption>
-            </figure>
+            <div class="row mask h-100" style="background-color: rgba(0, 0, 0, 0.6);">    
+                <div class="col-6 px-5 pt-5">
+                    <?php
+                    if (isset($_SESSION['login'])) {
+                        if (isset($_SESSION['admin']) == 1 ){
+                            echo '<h1 class="text-1 text-fluid"> Welcome back, Master <br>' . $_SESSION['fname'] . ',</h1>';            
+                            
+                            } else {
+                                echo '<h1 class="text-1 text-fluid">Welcome <br>' . $_SESSION['fname'] . ',</h1>';                            
+                            }   
+                    } else {
+                        echo '<h1 class="text-1 text-fluid"> Welcome <br> Guest,</h1>';            
+                    }
+                    ?>
+                    <h1 class="text-2 font-weight-bold text-fluid">to the CAS Centenary.</h1>
+                </div>
+                
+                <figure class="quote col-6 text-end text-light">
+                    <blockquote class="blockquote">
+                        <p>Educating For Eternity.</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer text-light">
+                        <cite title="Source Title">Christchurch Adventist School</cite>
+                    </figcaption>
+                </figure>
 
+            </div>
         </div>
 
     </div>
@@ -153,6 +157,7 @@ session_start();
             </div>
         </div>
     </form>
+
 </body>
 
 <?php
