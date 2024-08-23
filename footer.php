@@ -1,1 +1,6 @@
-<script type="text/javascript" src="script.js"></script>
+<body>
+<script src="script.js" type="text/javascript"></script>    
+</body>
+
+
+

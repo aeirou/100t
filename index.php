@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 include'includes/basehead.html';
 session_start();
@@ -6,7 +5,7 @@ session_start();
 ?>
 
 <head>
-    <title>CAS - Home</title>
+    <title>Home - 100thCAS</title>
 </head>
 
 </body>
@@ -55,108 +54,43 @@ session_start();
     }
     ?>
 
-    <div class="welcome-banner"
-        style="background-image: url('static/schoool.jpg');
-               background-color: rgba(0, 0, 0, 0.6);
-                background-size: cover;
-                background-position:center;">
+    <div class="welcome_banner">
+                
         <div class="container-fluid">
   
-            <div class="row mask h-100" style="background-color: rgba(0, 0, 0, 0.6);">    
-                <div class="col-6 px-5 pt-5">
+            <div class="row mask h-100">    
+                <div class="welcome_text col-6 text-start px-5 pt-5 text-light">                                                        
                     <?php
                     if (isset($_SESSION['login'])) {
-                        if (isset($_SESSION['admin']) == 1 ){
-                            echo '<h1 class="text-1 text-fluid"> Welcome back, Master <br>' . $_SESSION['fname'] . ',</h1>';            
-                            
-                            } else {
-                                echo '<h1 class="text-1 text-fluid">Welcome <br>' . $_SESSION['fname'] . ',</h1>';                            
-                            }   
+                        echo '<small>Hey there, ' .$_SESSION['fname'] . '!</small>';
                     } else {
-                        echo '<h1 class="text-1 text-fluid"> Welcome <br> Guest,</h1>';            
-                    }
+                        echo '<small>Log in or Sign up to start</small>!';
+                    }                        
                     ?>
-                    <h1 class="text-2 font-weight-bold text-fluid">to the CAS Centenary.</h1>
+                    <p class="text-light text-start text-uppercase">
+                        <strong>                                                      
+                            100th CAS ANNIVERSARY
+                        </strong>
+                    </p>
+
+                    <button type="button" class="btn btn-outline-light btn-sm text-start" id="btn">View Store</button>
+                    <button type="button" class="btn btn-outline-light btn-sm text-start" id="btn">View Store</button>
+
                 </div>
                 
-                <figure class="quote col-6 text-end text-light">
+                <!-- <figure class="quote col-6 text-starttext-dark">
                     <blockquote class="blockquote">
                         <p>Educating For Eternity.</p>
                     </blockquote>
-                    <figcaption class="blockquote-footer text-light">
+                    <figcaption class="blockquote-footer text-dark">
                         <cite title="Source Title">Christchurch Adventist School</cite>
                     </figcaption>
-                </figure>
+                </figure> -->
 
             </div>
         </div>
 
     </div>
-
-    <div class="col-xl py-2 pt-3 text-center">                            
-        <img src="static/backgroundlogo.svg" class="img-fluid"
-            style="width:100px;"/>
-    </div>
-
-    <form  action="login.php" method="POST" class="form" id="form">
-        <div class="container h-50">           
-            <div class="card my-4">
-                <div class="row g-0">
-
-                    <div class="col-xl-6">
-                        <a href="index.php">
-                            <img src="static/100logomottogold.svg" class="img-fluid"
-                                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"/>
-                        </a>
-                    </div>
-                    
-                    <div class="col-xl-6">
-                        <div class="p-md-5 text-black">
-                            <h3 class="mb-5 text-uppercase">Log In</h3>                        
-
-                            <div class="row">
-
-                                <div class="col mb-4">
-
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="usern_email">Username or Email</label>
-                                        <input type="text" name="usern_email" class="form-control" placeholder="Username or Email"/>                                                
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col mb-4">
-
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="password1">Password</label>
-                                        <input type="password" name="pass" class="form-control" placeholder="Password"/>      
-                                        <br>
-                                        <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
-                                    </div>
-
-                                </div>                                    
-
-                            </div>                                   
-
-                            <div class="d-flex justify-content-end pt-3">
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="login" type="submit" value="login">Log In</button>
-                            </div>
-                            
-                        </div>
-                    </div>     
-
-                    <div class="d-flex justify-content-center">
-                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
-                    </div>   
-
-                </div>
-            </div>
-        </div>
-    </form>
 
 </body>
 

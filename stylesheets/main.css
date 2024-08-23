@@ -14,6 +14,24 @@ body {
     background-position: center;
     background-attachment: fixed;
 }
+.welcome_banner {
+    background-size: cover;
+    height: 100vh;
+    background-color: #448FA3;
+}
+.welcome_text {
+    margin-top: 30vh;
+    margin-left: 30vh;
+    font-size: 2rem;   
+}
+#btn {
+    border-radius: 2px 2px 2px;
+}
+#btn:hover {
+    background-color: #1a353b;
+    color: white;
+    border-color: #1a353b;
+}
 .required-field::after {
     content: "*";
     color: red;
@@ -27,21 +45,8 @@ body {
 .dropdown-item {
     border-radius: 5px;
 }
-.reg_bg {
-    background-color: #112241;
-}
-.welcome-banner {
-    background-size: cover;
-    height: 100vh;
-}
-.text-1 {
-    color: lightgray;
-    font-size: 80px;
-    padding-top: 120px;
-}
-.text-2 {
-    color: gray;
-    font-size: 100px;
+#btn_head:hover {
+    color: #448FA3;
 }
 .quote {
     padding-top: 20vh;
@@ -56,12 +61,13 @@ body {
     font-size: 20px;
 }
 .nav {
-  background-color: transparent;
-  position: fixed;
-  width: 100%; 
-  top: 0;
+    background-color: #448FA3;
+    width: 100%; 
+    top: 0;
 }
-.nav-active {
-    background-color: red !important;
-    transition: background-color 200ms linear;
-  }
+.reg_bg {
+    background-color: #556a6f;
+}
+p {
+    font-size: clamp(22px, 10vw, 24px);
+}

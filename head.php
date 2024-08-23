@@ -2,23 +2,23 @@
 require_once'includes/connect.inc';
 session_start();
 ?>
-<nav class="nav navbar-expand-lg p-3 navbar-dark z-1 fixed-top">
+<nav class="nav navbar-expand-lg p-3 navbar-dark z-1 fixed-top" id="nav">
     <div class="container-fluid">
 
         <div class="row">
 
             <div class="col-4">
                 <a class="navbar-brand-two d-sm-flex" href="index.php">                
-                    <img class="px-3" src="static/navbar/100logogold-nav.svg" alt="">
-                    <div class="vr mb-1 bg-dark"></div>
-                    <img class="px-3" src="static/navbar/motto-nav.svg" alt="">
+                    <img class="px-3" src="static/navbar/100thhead.svg" alt="">
+                    <div class="vr mb-1 bg-white"></div>
+                    <img class="px-3" src="static/navbar/motto.svg" alt="">
                 </a>
             </div>
 
             <div class="col p-3">
             
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar navbar-nav bg-text-dark ms-auto mb-lg-0 pe-3">
+                    <ul class="navbar navbar-nav ms-auto mb-lg-0 pe-3">
 
                         <li class="nav-item px-3">
                             <a class="nav-link text-light" href="index.php">Home</a>
@@ -46,7 +46,7 @@ session_start();
                             if (isset($_SESSION['admin']) == 1) {
                                 echo '                             
                                     <div class="btn-group px-3">                                                                                                  
-                                        <a href="stock.php"><button type="button" class="btn btn-warning">Add stocks</button></a>                    
+                                        <a href="stocks.php"><button type="button" class="btn btn-outline-light" id="btn_head">View stocks</button></a>                    
                                     </div>';
                             }
 

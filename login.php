@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 require_once'includes/basehead.html';
 require_once'includes/connect.inc';
@@ -131,7 +129,7 @@ if ($errors) {
                                     <label class="py-2" for="password">Password</label>
                                     <input type="password" name="pass" id="password" class="form-control" placeholder="Password"/>      
                                     <br>
-                                    <small class="text-muted"><p class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></p></small>                                          
+                                    <small class="text-dark">Don't have an account? <a href="register.php" class="text-primary text-decoration-none"> Sign Up</a></small>                                          
                                 
                                 </div>                                    
 
@@ -145,7 +143,7 @@ if ($errors) {
                     </div>     
 
                     <div class="d-flex justify-content-center">
-                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
+                        <small class="text-muted fs-10 pb-3">© Copyright 2024 - Christchurch Adventist School</small>
                     </div>   
 
                 </div>

@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 require_once'includes/basehead.html';
 require_once'includes/connect.inc';
@@ -30,56 +28,57 @@ if (isset($_POST['register'])) {
 		array_push($errors, "Fields empty!");
 	} else {
             
-            // regex can be used to check specific patterns of all data for search queries as well as validating data,
-            // checking if the input is in the correct format.
+        // regex can be used to check specific patterns of all data for search queries as well as validating data,
+        // checking if the input is in the correct format.
 
-            // name validation
-            $re = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžæÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{0,11}+$/u";
+        // name validation
+        $re = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžæÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{0,11}+$/u";
 
-            // checks for first name
-            if (preg_match($re, $trimmed['first_name'])) {
-                $fn = mysqli_real_escape_string($conn, $trimmed['first_name']);
-            } else {
-                array_push($errors, "Please enter a valid name!");
-            }
+        // checks for first name
+        if (preg_match($re, $trimmed['first_name'])) {
+            $fn = mysqli_real_escape_string($conn, $trimmed['first_name']);
+        } else {
+            array_push($errors, "Please enter a valid name!");
+        }
 
-            // checks for last name
-            if (preg_match($re, $trimmed['last_name'])) {
-                $ln = mysqli_real_escape_string($conn, $trimmed['last_name']);
-            } else {
-                array_push($errors, "Please enter a valid name!");
-            }
-            
-            // checks for valid email address
-            if (filter_var($trimmed['email'], FILTER_VALIDATE_EMAIL)) {
-                $e = mysqli_real_escape_string($conn, $trimmed['email']);
-            } else {
-                array_push($errors, "Please enter a valid email address!");
-            }
+        // checks for last name
+        if (preg_match($re, $trimmed['last_name'])) {
+            $ln = mysqli_real_escape_string($conn, $trimmed['last_name']);
+        } else {
+            array_push($errors, "Please enter a valid name!");
+        }
+        
+        // checks for valid email address
+        if (filter_var($trimmed['email'], FILTER_VALIDATE_EMAIL)) {
+            $e = mysqli_real_escape_string($conn, $trimmed['email']);
+        } else {
+            array_push($errors, "Please enter a valid email address!");
+        }
 
-            // checks for username
+        // checks for username
+        if (preg_match('/^\w{2,16}$/', $trimmed['username'])) {
             if (preg_match('/^\w{2,16}$/', $trimmed['username'])) {
-                if (preg_match('/^\w{2,16}$/', $trimmed['username'])) {
-                    $u = mysqli_real_escape_string($conn, $trimmed['username']);
-                } else {
-                    array_push($errors, "Please check your username.");
-                }
+                $u = mysqli_real_escape_string($conn, $trimmed['username']);
             } else {
                 array_push($errors, "Please check your username.");
             }
+        } else {
+            array_push($errors, "Please check your username.");
+        }
 
-            $re_pass = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/';
+        # passworfd validation
+        $re_pass = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/';
 
-            // checks for password match with confirmed password - min 8 char & max 20 char; 1 letter
-            if (preg_match($re_pass, $trimmed['password1'])) {
-                if ($trimmed['password1'] == $trimmed['password2']) {
-                    $p = mysqli_real_escape_string($conn, $trimmed['password1']);
-                } else {
-                    array_push($errors, "Your passwords do not match!");
-                }
+        // checks for password match with confirmed password - min 8 char & max 20 char; 1 letter
+        if (preg_match($re_pass, $trimmed['password1'])) {
+            if ($trimmed['password1'] == $trimmed['password2']) {
+                $p = mysqli_real_escape_string($conn, $trimmed['password1']);
             } else {
-                array_push($errors, "Please enter a valid password!");
+                array_push($errors, "Your passwords do not match!");
             }
+        } else {
+            array_push($errors, "Please enter a valid password!");
+        }
     }
 
     // if everthing is ok
@@ -182,7 +181,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">  <!--for attribute is to link the label and input together.-->
                                         <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
-                                        <input type="text" id="first_name" name="first_name" class="form-control form-control-md" placeholder="First Name">                                                
+                                        <input type="text" id="first_name" name="first_name" class="form-control form-control-md" autocomplete="given-name" placeholder="First Name">                                                
                                         <small class="form-text text-muted">We'll never share your name with anyone else.</small>
                                     </div>
 
@@ -192,7 +191,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="last_name">Last name </label>
-                                        <input type="text" id="last_name" name="last_name" class="form-control form-control-md" placeholder="Last Name">
+                                        <input type="text" id="last_name" name="last_name" class="form-control form-control-md" autocomplete="family-name" placeholder="Last Name">
                                     </div>                                            
 
                                 </div>                                    
@@ -218,7 +217,7 @@ if ($success) {
 
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="required-field form-label" for="email">Email </label>
-                                        <input type="text" name="email" id="email" class="form-control form-control-md" placeholder="example@gmail.com">                                                
+                                        <input type="text" name="email" id="email" class="form-control form-control-md" autocomplete="off" placeholder="example@gmail.com">                                                
                                         <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                                     </div>
 
@@ -262,7 +261,7 @@ if ($success) {
                                         <label class="required-field form-label" for="password2">Confirm password </label>
                                         <input type="password" name="password2" id="password2" class="form-control form-control-md" placeholder="Confirm password">
                                         <br>
-                                        <small class="form-text text-muted"><p class="text-dark">Already have an account? <a href="login.php" class="text-primary text-decoration-none"> Sign In</a></p></small>
+                                        <small class="form-text text-dark">Already have an account? <a href="login.php" class="text-primary text-decoration-none"> Sign In</a></small>
                                     </div>
 
                                 </div>
@@ -277,7 +276,7 @@ if ($success) {
                     </div>     
 
                     <div class="d-flex justify-content-center">
-                        <p class="text-muted fs-10">© Copyright 2024 - Christchurch Adventist School</p>
+                        <small class="text-muted fs-10 pb-3">© Copyright 2024 - Christchurch Adventist School</small>
                     </div>   
 
                 </div>

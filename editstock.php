@@ -15,78 +15,79 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-// default values are invalid
-$n = $d = $c = FALSE;
-
 // variable that holds a list - list of errors/success messages
 $errors = [];
 $success = [];
 
-if (isset($_POST['add'])) {
-    // trims whitespace of all incoming data (sanitisation)
-    $trimmed = array_map('trim',$_POST);
+// gets the id of the product
+if (isset($_GET['id'])) {
 
-    if (empty($_POST['stock_name'] || $_POST['stock_desc'] || $_POST['stock_quantity'] || $_POST['stock_price'] || $_POST['category'])) {
-		array_push($errors, "Fields empty!");
-	} else {
+    // gets the id through GET method
+    $id = $_GET['id']; 
+    // query action
+    $q = "SELECT * FROM `product` WHERE `id` = $id";
+    // using the query variable to actually query
+    $r = mysqli_query($conn, $q);
+    // fetches all the rows the matches the query
+    $row = mysqli_fetch_assoc($r);
+    
 
-        // name validation
-        $re_n = "/^[a-zA-Z\s]{1,10}+$/u";
+    $n = $d = FALSE;
 
-        // product name validation
-        if (preg_match($re_n, $trimmed['stock_name'])) {
-            $n = mysqli_real_escape_string($conn, $trimmed['stock_name']);
+    if (isset($_POST["edit"])) {
+
+        // trim of all white space 
+        $trimmed = array_map('trim',$_POST);
+
+        // if fields are empty
+        if (empty($_POST['stock_name'] || $_POST['stock_desc'] || $_POST['stock_quantity'] || $_POST['stock_price'] || $_POST['stock_category'])) {
+            array_push($errors, "Fields empty!");
         } else {
-            array_push($errors, "Please enter a valid name!");
+
+            // name validation
+            $re_n = "/^[a-zA-Z\s]{1,10}+$/u";
+
+            // product name validation
+            if (preg_match($re_n, $trimmed['stock_name'])) {
+                $n = mysqli_real_escape_string($conn, $trimmed['stock_name']);
+            } else {
+                array_push($errors, "Please enter a valid name!");
+            }
+
+            $re_d = "/^[a-zA-Z0-9\s,.'-]{1,100}+$/u";
+
+            // desc validation
+            if (preg_match($re_d, $trimmed['stock_desc'])) {
+                $d = mysqli_real_escape_string($conn, $trimmed['stock_desc']);
+            } else {
+                array_push($errors, "Please enter a valid description!");
+                } 
+            
         }
 
-        $re_d = "/^[a-zA-Z0-9\s,.'-]{1,100}+$/u";
+        // if everthing is ok
+        if ($n&&$d) {
 
-        // desc validation
-        if (preg_match($re_d, $trimmed['stock_desc'])) {
-            $d = mysqli_real_escape_string($conn, $trimmed['stock_desc']);
-        } else {
-            array_push($errors, "Please enter a valid description!");
-            } 
-    }
-
-    // if everthing is ok
-    if ($n&&$d) {
-
-        $c = mysqli_real_escape_string($conn, $trimmed['category']);
-        $qt = mysqli_real_escape_string($conn, $trimmed['stock_quantity']);
-        $p = mysqli_real_escape_string($conn, $trimmed['stock_price']);
-
-        // check for unique product name
-        $check_name = "SELECT * FROM product WHERE name='$n' ";       
-
-        $r = mysqli_query($conn, $check_name) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));        
+            $c = mysqli_real_escape_string($conn, $trimmed['category']);
+            $qt = mysqli_real_escape_string($conn, $trimmed['stock_quantity']);
+            $p = mysqli_real_escape_string($conn, $trimmed['stock_price']);
         
-        // if item is unique
-        if (mysqli_num_rows($r) == 0) {
-                // adds item to the db                    
-
-            $q = "INSERT INTO `product` (`name`, `desc`, `SKU`, `category`, `price`, `created_at`)
-            VALUES ('$n', '$d', '$qt', '$c', '$p', NOW())";
-
-            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));            
+            // updates item to the db
+            $q = "UPDATE `product` SET `name` = '$n', `desc` = '$d', `SKU` = '$qt', `category` = '$c', price = '$p', `modified_at` = NOW() WHERE `id` = $id";
+            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));         
             
             if ($r) {
-                array_push($success, "Item has been added!");
+                array_push($success, "Item has been updated!");
             } else {
                 array_push($errors, "There was an error. Please try again later.");
-        }
-
-        } else {
-            array_push($errors, "This item already exists!");
+            }
         }
     }
-}    
-
+}
 ?>
 
 <head>
-    <title>Add stocks</title>
+    <title>Edit - 100thCAS</title>
 </head>
 
 <?php
@@ -115,6 +116,7 @@ if ($success) {
 }
 ?>
 
+
 <body class="reg_bg">
 
     <div class="col-xl py-2 pt-3 text-center">                            
@@ -122,11 +124,11 @@ if ($success) {
             style="width:100px;"/>
     </div>
 
-    <form action="addstock.php" method="POST" class="form">
+    <form action="editstock.php?id=<?php echo $row['id']; ?>" method="POST" class="form">
         <div class="container h-60">
             <div class="card card-registration my-4">          
                 <div class="card-body p-md-5 text-black">
-                    <h3 class="mb-5 text-uppercase text-success"><strong>Add stocks</strong></h3>     
+                    <h3 class="mb-5 text-uppercase text-info"><strong>Edit stocks</strong></h3>     
                     
                     <div class="row">
 
@@ -134,8 +136,8 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" class="form-label" for="stock_name">Name of item </label>
-                                <input type="text" name="stock_name" id="stock_name" class="form-control form-control-md" placeholder="CAS Mug" 
-                                >                                                
+                                <input type="text" name="stock_name" id="stock_name" class="form-control form-control-md" placeholder="CAS Mug">
+                                <small class="form-text text-muted">Name of item should be less than 10 characters and without a special characters.</small>                                                
                             </div>
 
                         </div>                        
@@ -147,8 +149,8 @@ if ($success) {
                         <div class="col-6 mb-4">
                             <div data-mdb-input-init class="form-outline">
                                 <label class="form-label" for="stock_desc">Description of the item </label>
-                                <input type="desc" style="height:100px" name="stock_desc" id="stock_desc" class="form-control form-control-md" placeholder="CAS Mug"
-                                >                                                 
+                                <input type="desc" style="height:100px" name="stock_desc" id="stock_desc" class="form-control form-control-md" placeholder="CAS Mug">
+                                <small class="form-text text-muted">Can be left NULL. Must be less than 100 characters.</small>                                                 
                             </div>
                         </div>
 
@@ -160,8 +162,8 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" for="stock_quantity">Stocks available </label>
-                                <input name="stock_quantity" id="stock_quantity" type="number" class="form-control form-control-md" value="1" max="500" min="1" step="1"
-                                >
+                                <input name="stock_quantity" id="stock_quantity" type="number" class="form-control form-control-md" value="1" max="500" min="1" step="1">
+                                <small class="form-text text-muted">Maximum stocks is 500.</small>
                             </div>                                        
 
                         </div>
@@ -170,8 +172,8 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" class="form-label" for="stock_price">Stock price </label>
-                                <input type="number" name="stock_price" id="stock_price" class="form-control form-control-md" value="1" max="100" min="0" step="1"
-                                >                                                
+                                <input type="number" name="stock_price" id="stock_price" class="form-control form-control-md" value="1" max="100" min="0" step="1">
+                                <small class="form-text text-muted">Maximum price is $100.</small>
                             </div>
 
                         </div>   
@@ -206,7 +208,7 @@ if ($success) {
                         <div class="col-sm-9">
 
                             <div class="d-flex justify-content-sm-end pt-3">
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="add" type="submit" value="add">Add Item</button>
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="edit" type="submit" value="edit">Update Item</button>
                             </div>                            
 
                         </div>                    
