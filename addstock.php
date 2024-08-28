@@ -5,8 +5,8 @@ session_start();
 
 // if user is not an admin, user is redirected to page invalid.
 if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
-    if (isset($_SESSION['admin']) == 0) {
-        header("Location:errordocs/invalid.php");
+    if ($_SESSION['admin'] == 0) {
+        header("Location:errordocs/invalid.html");
         exit();
     }
 }
@@ -16,7 +16,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 // default values are invalid
-$n = $d = $c = FALSE;
+$n = $d = $c = $qt = $p = $img = FALSE;
 
 // variable that holds a list - list of errors/success messages
 $errors = [];
@@ -26,36 +26,66 @@ if (isset($_POST['add'])) {
     // trims whitespace of all incoming data (sanitisation)
     $trimmed = array_map('trim',$_POST);
 
-    if (empty($_POST['stock_name'] || $_POST['stock_desc'] || $_POST['stock_quantity'] || $_POST['stock_price'] || $_POST['category'])) {
-		array_push($errors, "Fields empty!");
-	} else {
-
-        // name validation
-        $re_n = "/^[a-zA-Z\s]{1,10}+$/u";
-
-        // product name validation
-        if (preg_match($re_n, $trimmed['stock_name'])) {
-            $n = mysqli_real_escape_string($conn, $trimmed['stock_name']);
+    // product name validation
+    if (!empty($trimmed['stock_name'])) {
+        if (strlen($trimmed['stock_name']) <= 18) {
+            $n = mysqli_real_escape_string($conn, $trimmed['stock_name']);                  
         } else {
-            array_push($errors, "Please enter a valid name!");
-        }
+            array_push($errors, "Item name exceeds 18 characters!");
+        }   
+    } else {
+        array_push($errors, "Please enter an item name.");
+    }
 
-        $re_d = "/^[a-zA-Z0-9\s,.'-]{1,100}+$/u";
-
-        // desc validation
-        if (preg_match($re_d, $trimmed['stock_desc'])) {
-            $d = mysqli_real_escape_string($conn, $trimmed['stock_desc']);
+    // desc validation
+    if (!empty($trimmed['stock_desc'])) {
+        if (strlen($trimmed['stock_desc']) <= 100) {            
+            $d = mysqli_real_escape_string($conn, $trimmed['stock_desc']);              
         } else {
-            array_push($errors, "Please enter a valid description!");
-            } 
+            array_push($errors, "Item description exceeds 100 characters!");
+        }   
+    } else {
+        array_push($errors, "Please enter a description.");
+    }
+
+    // category validation
+    if (!empty($trimmed['category'])) {
+        $c = mysqli_real_escape_string($conn, $trimmed['category']);
+    } else {
+        array_push($errors, "Please enter a category.");
+    }
+
+    // quantity validation
+    if (!empty($trimmed['stock_quantity'])) {
+        if($trimmed['stock_quantity'] >= 1 && $trimmed['stock_quantity'] <= 500) {     
+            $qt = mysqli_real_escape_string($conn, $trimmed['stock_quantity']);
+        } else {
+            array_push($errors, "You cannot less than 1 or more than 500 of an item.");
+        }        
+    } else {
+        array_push($errors, "Please enter the number of the items.");
+    }
+
+    // price validation
+    if (!empty($trimmed['stock_price'])) {
+        if($trimmed['stock_price'] >= 1 && $trimmed['stock_price'] <= 1000) {            
+            $p = mysqli_real_escape_string($conn, $trimmed['stock_price']); 
+        } else {
+            array_push($errors, "You cannot have less than $1 or more than $1000 for an item.");
+        }        
+    } else {
+        array_push($errors, "Please enter the price of the item.");
+    }
+
+    // img validation
+    if (!empty($trimmed['stock_img'])) {
+        $img = $trimmed['stock_img'];
+    } else {
+        $img = 'imagenotfound.svg';
     }
 
     // if everthing is ok
-    if ($n&&$d) {
-
-        $c = mysqli_real_escape_string($conn, $trimmed['category']);
-        $qt = mysqli_real_escape_string($conn, $trimmed['stock_quantity']);
-        $p = mysqli_real_escape_string($conn, $trimmed['stock_price']);
+    if ($n&&$d&&$c&&$qt&&$p) {        
 
         // check for unique product name
         $check_name = "SELECT * FROM product WHERE name='$n' ";       
@@ -64,11 +94,10 @@ if (isset($_POST['add'])) {
         
         // if item is unique
         if (mysqli_num_rows($r) == 0) {
-                // adds item to the db                    
 
-            $q = "INSERT INTO `product` (`name`, `desc`, `SKU`, `category`, `price`, `created_at`)
-            VALUES ('$n', '$d', '$qt', '$c', '$p', NOW())";
-
+            // adds item to the db                    
+            $q = "INSERT INTO `product` (`img`,`name`, `desc`, `SKU`, `category`, `price`, `created_at`)
+            VALUES ('$img','$n', '$d', '$qt', '$c', '$p', NOW())";
             $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));            
             
             if ($r) {
@@ -92,9 +121,6 @@ if (isset($_POST['add'])) {
 <?php
 if ($errors) {
 	echo "<div class='alert alert-warning alert-dismissable d-flex align-items-center fade show fixed-top' role='alert'>";
-	echo "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-exclamation-triangle-fill flex-shrink-0 me-2' viewBox='0 0 16 16' role='img' aria-label='Warning:'>
-    <path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'/>
-    </svg>";
 
 	echo array_values($errors)[0];
 
@@ -104,9 +130,6 @@ if ($errors) {
 
 if ($success) {
     echo "<div class='alert alert-success alert-dismissable d-flex align-items-center fade show fixed-top' role='alert'>";
-    echo "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='check-circle-fill me-2' fill='currentColor' viewBox='0 0 16 16' flex-shrink-0>
-    <path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/>
-    </svg>";
 
     echo array_values($success)[0];
 
@@ -126,7 +149,7 @@ if ($success) {
         <div class="container h-60">
             <div class="card card-registration my-4">          
                 <div class="card-body p-md-5 text-black">
-                    <h3 class="mb-5 text-uppercase text-success"><strong>Add stocks</strong></h3>     
+                    <h3 class="mb-5 text-uppercase text-info"><strong>Add stocks</strong></h3>     
                     
                     <div class="row">
 
@@ -134,21 +157,29 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" class="form-label" for="stock_name">Name of item </label>
-                                <input type="text" name="stock_name" id="stock_name" class="form-control form-control-md" placeholder="CAS Mug" 
-                                >                                                
+                                <input type="text" name="stock_name" id="stock_name" class="form-control form-control-md" placeholder="CAS Mug" value="<?php if (isset($_POST['stock_name'])) echo $_POST['stock_name'];?>">                                                                                                                         
                             </div>
 
-                        </div>                        
+                        </div>
+                        
+                        <div class="col-6 mb-4">
+
+                            <div data-mdb-input-init class="form-outline">
+                                <label class="form-label" for="stock_img">Image of the item </label>
+                                <input type="text" name="stock_img" id="stock_img" class="form-control form-control-md" placeholder="image.jpg">   
+                            </div>
+
+                        </div> 
 
                     </div>
 
                     <div class="row">
 
-                        <div class="col-6 mb-4">
+                        <div class="col mb-4">
                             <div data-mdb-input-init class="form-outline">
                                 <label class="form-label" for="stock_desc">Description of the item </label>
-                                <input type="desc" style="height:100px" name="stock_desc" id="stock_desc" class="form-control form-control-md" placeholder="CAS Mug"
-                                >                                                 
+                                <textarea type="desc" style="height:100px" name="stock_desc" id="stock_desc" class="form-control form-control-md" placeholder="This is a mug." value="<?php if (isset($_POST['stock_desc'])) echo $_POST['stock_desc'];?>"></textarea>                                                
+                                <small class="form-text text-muted">Description can be up to 100 characters.</small>                                                                                             
                             </div>
                         </div>
 
@@ -160,8 +191,7 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" for="stock_quantity">Stocks available </label>
-                                <input name="stock_quantity" id="stock_quantity" type="number" class="form-control form-control-md" value="1" max="500" min="1" step="1"
-                                >
+                                <input name="stock_quantity" id="stock_quantity" type="number" class="form-control form-control-md" value="1" step="1">
                             </div>                                        
 
                         </div>
@@ -170,8 +200,7 @@ if ($success) {
 
                             <div data-mdb-input-init class="form-outline">
                                 <label class="required-field form-label" class="form-label" for="stock_price">Stock price </label>
-                                <input type="number" name="stock_price" id="stock_price" class="form-control form-control-md" value="1" max="100" min="0" step="1"
-                                >                                                
+                                <input type="number" name="stock_price" id="stock_price" class="form-control form-control-md" value="1" step="1">                                                
                             </div>
 
                         </div>   
@@ -179,12 +208,12 @@ if ($success) {
                         <div class="col-4 mb-4">
                             
                             <label class="required-field form-label" class="form-label" for="category">Stock Category </label>
-                            <select class="form-select" aria-label="Default select example" name="category" id="category">
-                                <option selected>Select a Category</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="stationary">Stationary</option>
-                                <option value="crockery">Crockery</option>                                
+                            <select class="form-select" aria-label="Default select example" name="category" id="category" placeholder="hello">
+                                <option selected></option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Stationary">Stationary</option>
+                                <option value="Crockery">Crockery</option>                                
                             </select>                  
 
                         </div>   
@@ -196,7 +225,7 @@ if ($success) {
                         <div class="col-sm-3">
 
                             <div class="d-flex justify-content-sm-start pt-3"> 
-                                <a href="stocks.php">
+                                <a href="dashboard.php">
                                     <button class="btn btn-info btn-lg ms-2" type="button">View Stocks</button>
                                 </a>                                                 
                             </div>
@@ -214,16 +243,11 @@ if ($success) {
                     </div>
                     
                 </div>
-                
-                <div class="d-flex justify-content-center">
-                    <small class="text-muted fs-10 pb-3">© Copyright 2024 - Christchurch Adventist School</small>
-                </div>   
-
-            </div>
-        </div>
+            
+            <div class="d-flex justify-content-center">
+            <small class="text-muted fs-10 pb-3">© Copyright 2024 - Christchurch Adventist School</small>
+        </div>   
     </form>
 </body>
-
-
 <?php
 include'footer.php';

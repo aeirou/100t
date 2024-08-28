@@ -1,30 +1,80 @@
 <?php
+require_once'includes/basehead.html';
 require_once'includes/connect.inc';
-include'includes/basehead.html';
 session_start();
+
+// if user is not an admin, user is redirected to page invalid.
+if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
+    if ($_SESSION['admin'] == 0) {
+        header("Location:errordocs/invalid.html");
+        exit();
+    }
+}
+
+// for errors
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+// query all the item in the database
+$q = "SELECT `id`, `img`, `name`, `SKU`, `category`, `price`, `created_at`, `modified_at` FROM product"; 
+
+$r =  mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+// for error
+if (!$r) {
+    echo "Error fetching products: " . mysqli_error($conn);
+    exit();
+}
 ?>
 
+<head>
+    <title>Dashboard - 100thCAS</title>
+</head>
+
 <body>
+    <p class="h1 display-4 p-5">Inventory list</p>
 
-    <nav class="menu position" id="menu">
-        <div class="actionbar">
-            <button id="menuBtn">
-                <i class="fas fa-bar"></i>
-                Dashboard
-            </button>            
-        </div>
-        <ul class="optionBar">
-            <li class="menuItem">
-                <a href="#" class="menuOption">
-                    <i class="fas fa-home"></i>
-                    <h5 class="menuText">Home</h5>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <a href="addstock.php">
+        <button class="btn btn-info btn-lg ms-2" type="button">Add Stock</button>
+    </a> 
 
+    <table class="table table-striped table-bordered table-hover border-info">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col"># of Stocks</th>                
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Last modified at</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = mysqli_fetch_assoc($r)) {
+                echo'
+                <tr>
+                    <th scope="row">' . $row['id'] . '</th>
+                    <td><img style="width: 200px; height: 200px;" class="mw-50" src="/100thCAS/img/' . $row['img'] . '" alt="img"/></td>
+                    <td>' . $row['name'] .' <br> <a href="editstock.php?id=' . $row['id'] . '" class="text-info text-decoration-none">Edit</a> 
+                    <a href="removestock.php?id=' . $row['id'] . '" class="text-danger text-decoration-none">Remove</a> </td>
+                    <td>' . $row['SKU'] .'</td>
+                    <td>' . $row['category'] .'</td>
+                    <td>$' . $row['price'] .'</td>
+                    <td>' . $row['created_at'] .'</td>
+                    <td>' . $row['modified_at'] .'</td>                    
+                </tr>                                        
+                ';      
+            }
+
+            ?>
+        </tbody>
+    </table>
 </body>
 
-<?php
-require_once('footer.php');
 
+<?php
+include'footer.php';

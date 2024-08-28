@@ -1,5 +1,5 @@
 <body>
-<script src="script.js" type="text/javascript"></script>    
+<script type="text/javascript" src="/100thCAS/script.js"></script>    
 </body>
 
 

@@ -2,7 +2,7 @@
 require_once'includes/connect.inc';
 session_start();
 ?>
-<nav class="nav navbar-expand-lg p-3 navbar-dark z-1 fixed-top" id="nav">
+<nav class="nav navbar-expand-lg p-1 navbar-dark z-1 fixed-top" id="nav">
     <div class="container-fluid">
 
         <div class="row">
@@ -42,13 +42,6 @@ session_start();
 
                         // when user is logged in
                         if (isset($_SESSION['login'])) {
-
-                            if (isset($_SESSION['admin']) == 1) {
-                                echo '                             
-                                    <div class="btn-group px-3">                                                                                                  
-                                        <a href="stocks.php"><button type="button" class="btn btn-outline-light" id="btn_head">View stocks</button></a>                    
-                                    </div>';
-                            }
 
                             echo '
                             <div class="btn-group px-3">                                

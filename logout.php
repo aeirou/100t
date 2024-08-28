@@ -13,9 +13,9 @@ if (!isset($_SESSION['login'])) {
     exit();
 
 } else {
-    // destroys the session variables
+    // stores all session data into array
     $_SESSION = array();
-    // destroys the session and all the info it stored
+    // destroys the array
     session_destroy();
     // '?' ends the url and is a seperator from the queries after the symbol in the url
     header("Location:index.php?l=loggedout");
