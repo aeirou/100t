@@ -48,7 +48,6 @@ if (isset($_POST['login'])) {
             $_SESSION = mysqli_fetch_array($r, MYSQLI_ASSOC);
             $_SESSION['login'] = true; 
 
-
             mysqli_free_result($r);
             mysqli_close($conn);
 

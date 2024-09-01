@@ -1,7 +1,7 @@
 <?php
 require_once'includes/connect.inc';
-session_start();
 ?>
+
 <nav class="nav navbar-expand-lg p-1 navbar-dark z-1 fixed-top" id="nav">
     <div class="container-fluid">
 
@@ -24,9 +24,19 @@ session_start();
                             <a class="nav-link text-light" href="index.php">Home</a>
                         </li>
 
-                        <li class="nav-item px-3">
-                            <a class="nav-link text-light" href="#">RSVP</a>
-                        </li>
+                        <?php
+                        if (isset($_SESSION['login'])) {
+                            echo '
+                            <li class="nav-item px-3">
+                                <a class="nav-link text-light" href="rsvp.php">RSVP</a>
+                            </li>';
+                        } else {
+                            echo '
+                            <li class="nav-item px-3">
+                                <a class="nav-link text-light" href="login.php">RSVP</a>
+                            </li>';
+                        }
+                        ?>                        
 
                         <li class="nav-item px-3">
                             <a class="nav-link text-light" href="store.php">Store</a>
@@ -54,8 +64,7 @@ session_start();
                               
                             echo'    
                             </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Edit profile</a>                                              
+                                <div class="dropdown-menu dropdown-menu-end">                                                                                  
                                     <a class="dropdown-item text-light bg-danger" href="logout.php">Log out</a>                     
                                 </div>
                             </div>';   

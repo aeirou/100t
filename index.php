@@ -35,6 +35,7 @@ session_start();
 
          // unsets the session 
         unset($_SESSION['danger']);
+
     } elseif (isset($_GET['l'])) {
         echo "<div class='alert alert-danger alert-dismissable d-flex align-items-center fade show fixed-top' role='alert'>";
 
@@ -67,14 +68,14 @@ session_start();
                     </p>
 
                     <?php
-                    if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
+                    if (isset($_SESSION['login'])) {
                         // if admin
                         if ($_SESSION['admin'] == 1) {
                             echo '
                             <a href="dashboard.php" class="text-decoration-none">                                                    
                                 <button type="button" class="btn btn-m text-start" id="btn">Dashboard</button>
                             </a>
-                            <a href="rsvplist.php" class="text-decoration-none">                                                    
+                            <a href="attendees.php" class="text-decoration-none">                                                    
                                 <button type="button" class="btn btn-m text-start" id="btn">RSVP List</button>
                             </a>
                             ';
@@ -89,7 +90,16 @@ session_start();
                             ';
                         }
 
-                    }                    
+                    } else {
+                        echo '
+                            <a href="store.php" class="text-decoration-none">                                                    
+                                <button type="button" class="btn btn-m text-start" id="btn">View Store</button>
+                            </a>
+                            <a href="login.php" class="text-decoration-none">                                                    
+                                <button type="button" class="btn btn-m text-start" id="btn">Log in to RSVP</button>
+                            </a>
+                            ';
+                    }                  
                     ?>                    
 
                 </div>            
@@ -98,117 +108,25 @@ session_start();
         </div>
 
     </div>
-
-    <div class="col-xl py-2 pt-3 text-center">                            
-        <img src="static/backgroundlogo.svg" class="img-fluid"
-            style="width:100px;"/>
-    </div>
-
-    <form action="addstock.php" method="POST" class="form">
-        <div class="container h-60">
-            <div class="card card-registration my-4">          
-                <div class="card-body p-md-5 text-black">
-                    <h3 class="mb-5 text-uppercase text-info"><strong>Add stocks</strong></h3>     
-                    
-                    <div class="row">
-
-                        <div class="col-6 mb-4">
-
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="required-field form-label" class="form-label" for="stock_name">Name of item </label>
-                                <input type="text" name="stock_name" id="stock_name" class="form-control form-control-md" placeholder="CAS Mug" value="<?php if (isset($_POST['stock_name'])) echo $_POST['stock_name'];?>">   
-                                <small class="form-text text-muted">Name of item should be less than 225 and more than 5 characters.</small>                                                                                             
-                            </div>
-
-                        </div>
-                        
-                        <div class="col-6 mb-4">
-
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="form-label" for="stock_img">Image of the item </label>
-                                <input type="text" name="stock_img" id="stock_img" class="form-control form-control-md" placeholder="image.jpg">   
-                            </div>
-
-                        </div> 
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col mb-4">
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="form-label" for="stock_desc">Description of the item </label>
-                                <textarea type="desc" style="height:100px" name="stock_desc" id="stock_desc" class="form-control form-control-md" placeholder="This is a mug." value="<?php if (isset($_POST['stock_desc'])) echo $_POST['stock_desc'];?>"></textarea>                                                
-                                <small class="form-text text-muted">Description can be up to 1000 characters.</small>                                                                                             
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="row">
-
-                        <div class="col-4 mb-4">
-
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="required-field form-label" for="stock_quantity">Stocks available </label>
-                                <input name="stock_quantity" id="stock_quantity" type="number" class="form-control form-control-md" value="1" step="1">
-                            </div>                                        
-
-                        </div>
-
-                        <div class="col-4 mb-4">
-
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="required-field form-label" class="form-label" for="stock_price">Stock price </label>
-                                <input type="number" name="stock_price" id="stock_price" class="form-control form-control-md" value="1" step="1">                                                
-                            </div>
-
-                        </div>   
-
-                        <div class="col-4 mb-4">
-                            
-                            <label class="required-field form-label" class="form-label" for="category">Stock Category </label>
-                            <select class="form-select" aria-label="Default select example" name="category" id="category" placeholder="hello">
-                                <option selected></option>
-                                <option value="clothing">Clothing</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="stationary">Stationary</option>
-                                <option value="crockery">Crockery</option>                                
-                            </select>                  
-
-                        </div>   
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-3">
-
-                            <div class="d-flex justify-content-sm-start pt-3"> 
-                                <a href="dashboard.php">
-                                    <button class="btn btn-info btn-lg ms-2" type="button">View Stocks</button>
-                                </a>                                                 
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm-9">
-
-                            <div class="d-flex justify-content-sm-end pt-3">
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2" name="add" type="submit" value="add">Add Item</button>
-                            </div>                            
-
-                        </div>                    
-
-                    </div>
-                    
-                </div>
-            
-            <div class="d-flex justify-content-center">
-            <small class="text-muted fs-10 pb-3">© Copyright 2024 - Christchurch Adventist School</small>
-        </div>   
-    </form>
-
+    
+    <footer class="text-white">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="static/schoool.jpg" alt="">
+            </div>
+            <div class="col-md-6">
+                <p class="welcome fw-bold">Welcome to CAS! </p>
+                <p class="para">
+                Reaching the 100th year of Christchurch Adventist School is a remarkable milestone that celebrates a century of faith,
+                learning, and community. For a hundred years, the school has nurtured young minds, fostering academic excellence while 
+                instilling values of Respect, Integrity, Excellence and Responsibility. This centennial anniversary is not just a 
+                celebration of the past but a tribute to the dedication of teachers, students, families, and supporters who have been 
+                part of this journey. As we honor this legacy, we look forward to a future filled with continued growth, achievement, 
+                and the enduring mission of shaping lives for Christ.
+                </p>
+            </div>
+        </div>
+    </footer>
 
 </body>
 

@@ -1,16 +1,3 @@
-let navbar = document.getElementById('nav');
-
-if (navbar) {
-    window.addEventListener("scroll", function () {
-        console.log("Scroll event triggered"); // Debugging line
-        if (window.scrollY > 1) {
-            navbar.style.backgroundColor = "blue"; // Temporary inline style for testing
-        } else {
-            navbar.style.backgroundColor = "transparent";
-        }
-    });
-}
-
 setTimeout(function () {
     let alert = bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert"));
     if (alert) {
@@ -18,26 +5,39 @@ setTimeout(function () {
     }
 }, 10000);
 
+// update cart item quantity in real time using ajax
+if (window.location.pathname.endsWith("cart.php")) {
+    $("input[name='qty']").change(function () {
+    let newQuantity = $(this).val();
+    let productId = $(this).data("product-id");
 
-// for the quantity button for each product
-const plus = document.querySelector('.plus'),
-minus = document.querySelector('.minus'),
-qty = document.querySelector('.qty');
-
-let a = 1;
-
-// when plus button is clicked
-plus.addEventListener('click', ()=>{
-    a++;
-    a = (a < 10) ? a : a;
-    qty.value = a;
+    $.ajax({
+        url: "updatecart.php",
+        type: "post",
+        data: { quantity: newQuantity, product_id: productId },
+        success: function () {
+        location.reload(); // reloads the page
+        },
+    });
 });
+}
 
-// when minus button is clicked
-minus.addEventListener('click', ()=>{
-    if (a > 1) {
-        a--;
-        a = (a < 10) ? a : a;
-        qty.value = a;
-    }    
-});
+// for increment and decrement for quantity input for cart
+// took out the limit for under 1 so user can take away items
+$(document).ready(function () {
+    $(".minus").click(function () {
+      var $input = $(this).parent().find("input");
+      var count = parseInt($input.val()) - 1;       
+      $input.val(count);
+      $input.change();
+      return false;
+    });
+    $(".plus").click(function () {
+      var $input = $(this).parent().find("input");
+      $input.val(parseInt($input.val()) + 1);
+      $input.change();
+      return false;
+    });
+  });
+
+

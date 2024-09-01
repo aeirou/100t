@@ -33,98 +33,97 @@ while ($row = mysqli_fetch_assoc($r)) {
     $c = $row['category'];   
     $p = $row['price'];   
 } 
+      
 
-// when user clicks submit (add to cart)
-if (isset($_POST['add_cart'])) {     
+// if the id is set
+if (isset($_GET['id'], $_POST['qty'])) {
 
-    // if the id is set
-    if (isset($_GET['id'], $_POST['qty'])) {
-        
-        // gets the quantity user wants
-        $qty = $_POST['qty']; 
+    // gets the quantity user wants
+    $qty = $_POST['qty'];   
 
-        // looks for the user's cart
-        $q = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
-        $r_cart =  mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-        
-        // if user does not have a cart - cannot find the cart
-        if (mysqli_num_rows($r_cart) == 0) {        
-            // creates the cart by assigning the user one
-            $q = "INSERT INTO `cart` (`user_id`, `created_at`) VALUES ($user_id, NOW())";
-            $r =  mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-            
-            
-            // selects the cart of the user
-            $q_cart = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
-            $r_cart = mysqli_query($conn, $q_cart) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-        }
-        // sets the session variable to fetch the user of the cart 
-        $_SESSION['cart'] = mysqli_fetch_array($r_cart, MYSQLI_ASSOC);         
+    // looks for the user's cart
+    $q = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
+    $r_cart =  mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+    // if user does not have a cart - cannot find the cart
+    if (mysqli_num_rows($r_cart) == 0) {        
+        // creates the cart by assigning the user one
+        $q = "INSERT INTO `cart` (`user_id`, `created_at`) VALUES ($user_id, NOW())";
+        $r =  mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+        // selects the cart of the user
+        $q_cart = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
+        $r_cart = mysqli_query($conn, $q_cart) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
     }
+    // sets the session variable to fetch the user of the cart 
+    $_SESSION['cart'] = mysqli_fetch_array($r_cart, MYSQLI_ASSOC); 
 
-    // checks the cart if the product is already in the cart
-    // if the query finds the same product id and cart in of an item, it returns > 0.
-    $q = "SELECT * FROM `cart_item` WHERE (`cart_id` = " . $_SESSION["cart"]["id"] . " AND `product_id` = $id)";
-    $result = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+    // when user clicks submit (add to cart)
+    if (isset($_POST['add_cart'])) {     
 
-    // if item is not unique in the cart
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {   
-            // if user enters numbers below 0   
+        // checks the cart if the product is already in the cart
+        // if the query finds the same product id and cart in of an item, it returns > 0.
+        $q = "SELECT * FROM `cart_item` WHERE (`cart_id` = " . $_SESSION["cart"]["id"] . " AND `product_id` = $id)";
+        $result = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+        // if item is not unique in the cart
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {   
+                // if user enters numbers below 0   
+                if ($qty < 1) {
+                    array_push($errors, 'Please enter a number greater than 1.');
+                } else {
+                    // if ok
+                    $qty = $_POST['qty'];  
+                    // new quantity added from the original quantity the user wanted
+                    $new_qty = $row['quantity']+$qty;        
+                    $q = "UPDATE `cart_item` SET `quantity` = $new_qty, `modified_at` = NOW() WHERE `cart_id` = " . $_SESSION["cart"]["id"] . " AND `product_id` = $id";
+                    $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+                    array_push($success, "You have added " . $qty . " more of '" . $n . "' in your cart!");
+                }
+            }        
+        } else {
+            // if user enters numbers below 0 
             if ($qty < 1) {
                 array_push($errors, 'Please enter a number greater than 1.');
             } else {
-                // if ok
-                $qty = $_POST['qty'];  
-                // new quantity added from the original quantity the user wanted
-                $new_qty = $row['quantity']+$qty;        
-                $q = "UPDATE `cart_item` SET `quantity` = $new_qty, `modified_at` = NOW() WHERE `cart_id` = " . $_SESSION["cart"]["id"] . " AND `product_id` = $id";
+                // if unique
+                $q = "INSERT INTO `cart_item` (`product_id`, `cart_id`, `quantity`, `created_at`) 
+                VALUES ($id, " . $_SESSION['cart']['id'] . ", $qty, NOW())";
                 $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
 
-                array_push($success, "You have added " . $qty . " more of '" . $n . "' in your cart!");
+                array_push($success, "You have added '" . $n . "' in your cart!");
             }
-        }        
-    } else {
-        // if user enters numbers below 0 
-        if ($qty < 1) {
-            array_push($errors, 'Please enter a number greater than 1.');
-        } else {
-            // if unique
-            $q = "INSERT INTO `cart_item` (`product_id`, `cart_id`, `quantity`, `created_at`) 
-            VALUES ($id, " . $_SESSION['cart']['id'] . ", $qty, NOW())";
-            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-
-            array_push($success, 'You have added' . $n . ' in your cart!');
         }
+
+        $cart_id = $_SESSION['cart']['id'];
+
+        // update the total price of the user's item in the cart
+        $q = "SELECT * FROM `cart_item`
+            LEFT JOIN `product` ON cart_item.product_id = product.id
+            LEFT JOIN `cart` ON cart_item.cart_id = cart.id
+            WHERE cart_item.cart_id = $cart_id
+            ORDER BY `cart_item`.`modified_at` DESC;";
+        $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+
+        $total_price = 0;
+
+        while ($row = mysqli_fetch_assoc($r)) { 
+            $total_item_price = 0;
+            $p = $row['price'];
+            $qty = $row['quantity'];
+
+            $total_item_price += $p * $qty;
+            $total_price += $total_item_price;
+        } 
+
+        // updates the total price column
+        $q = "UPDATE `cart` SET `total_price` = $total_price, `modified_at` = NOW() WHERE `id` = $cart_id";
+        $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
+        mysqli_close($conn);
     }
-
-    $cart_id = $_SESSION['cart']['id'];
-
-    // update the total price of the user's item in the cart
-    $q = "SELECT * FROM `cart_item`
-        LEFT JOIN `product` ON cart_item.product_id = product.id
-        LEFT JOIN `cart` ON cart_item.cart_id = cart.id
-        WHERE cart_item.cart_id = $cart_id
-        ORDER BY `cart_item`.`modified_at` DESC;";
-    $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-
-    $total_price = 0;
-
-    while ($row = mysqli_fetch_assoc($r)) { 
-        $total_item_price = 0;
-        $p = $row['price'];
-        $qty = $row['quantity'];
-
-        $total_item_price += $p * $qty;
-        $total_price += $total_item_price;
-    } 
-
-    // updates the total price column
-    $q = "UPDATE `cart` SET `total_price` = $total_price, `modified_at` = NOW() WHERE `id` = $cart_id";
-    $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
-    mysqli_close($conn);
 }
-
 ?>
 
 <head>

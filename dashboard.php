@@ -32,12 +32,25 @@ if (!$r) {
     <title>Dashboard - 100thCAS</title>
 </head>
 
-<body>
-    <p class="h1 display-4 p-5">Inventory list</p>
+<body class="dash">
 
-    <a href="addstock.php">
-        <button class="btn btn-info btn-lg ms-2" type="button">Add Stock</button>
-    </a> 
+    <?php
+    require_once'header.php';
+    ?>
+
+    <p class="h1 fw-bold px-5">Dashboard</p>
+    
+    <div class="dash_btn">
+        <a href="addstock.php" class="text-decoration-none">
+            <button class="btn btn-add">Add Item</button>
+        </a>
+        <a href="attendees.php" class="text-decoration-none">
+            <button class="btn btn-view">View Attendees</button>
+        </a>
+        <a href="viewcarts.php" class="text-decoration-none">
+            <button class="btn btn-view-cart">View Carts</button>
+        </a>
+    </div>      
 
     <table class="table table-striped table-bordered table-hover border-info">
         <thead class="thead-light">

@@ -24,7 +24,7 @@ if (isset($_POST['register'])) {
     // trims whitespace of all incoming data
     $trimmed = array_map('trim',$_POST);
 
-    if (empty($_POST['first_name'] || $_POST['last_name'] || $_POST['year_graduated'] || $_POST['email'] || $_POST['username'] || $_POST['password1'])) {
+    if (empty($_POST['first_name'] || $_POST['last_name'] || $_POST['email'] || $_POST['username'] || $_POST['password1'])) {
 		array_push($errors, "Please fill out required fields!");
 	} else {
             
@@ -97,12 +97,9 @@ if (isset($_POST['register'])) {
         if (mysqli_num_rows($r_u) == 0) {
             if (mysqli_num_rows($r_e) == 0) {
 
-                // year grad input
-                $year_graduated = $_POST['year_graduated'];
-
                 // adds user to the db
-                $q = "INSERT INTO user (username, fname, lname, email, password, year_graduated ,created_at)
-                VALUES ('$u', '$fn', '$ln', '$e', SHA1('$p'), $year_graduated, NOW())";
+                $q = "INSERT INTO user (username, fname, lname, email, password ,created_at)
+                VALUES ('$u', '$fn', '$ln', '$e', SHA1('$p'), NOW())";
 
                 $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));
                 
@@ -189,19 +186,6 @@ if ($success) {
                                     </div>                                            
 
                                 </div>                                    
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col mb-4">
-
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="required-field form-label" for="year_graduated">Year Graduated </label>
-                                        <input name="year_graduated" id="year_graduated" type="number" class="form-control form-control-md" value="2024" max="2024" min="1925" step="1">
-                                    </div>
-                                
-                                </div>
 
                             </div>
 
