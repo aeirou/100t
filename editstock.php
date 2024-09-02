@@ -11,10 +11,6 @@ if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
     }
 }
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 // variable that holds a list - list of errors/success messages
 $errors = [];
 $success = [];

@@ -3,10 +3,6 @@ require_once'includes/basehead.html';
 require_once'includes/connect.inc';
 session_start();
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 if (isset($_SESSION['login'])) {
     $_SESSION['danger'] = 'You are already logged in!';
     header('Location: index.php');
@@ -171,7 +167,7 @@ if ($success) {
                                 <div class="col-md-6 mb-4">
 
                                     <div data-mdb-input-init class="form-outline">  <!--for attribute is to link the label and input together.-->
-                                        <label class="required-field form-label" for="first_name">First name (11 characters max) </label>
+                                        <label class="required-field form-label" for="first_name">First name (11 chars max) </label>
                                         <input type="text" id="first_name" name="first_name" class="form-control form-control-md" autocomplete="given-name" placeholder="First Name" value="<?php if (isset($_POST['first_name'])) echo $_POST['first_name']; ?>">                                                
                                         <small class="form-text text-muted">We'll never share your name with anyone else.</small>
                                     </div>

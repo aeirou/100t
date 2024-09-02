@@ -11,11 +11,6 @@ if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
     }
 }
 
-// for errors
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 // query all the item in the database
 $q = "SELECT `id`, `img`, `name`, `SKU`, `category`, `price`, `created_at`, `modified_at` FROM product"; 
 

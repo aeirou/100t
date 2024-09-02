@@ -11,10 +11,6 @@ if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
     }
 }
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 // variable that holds a list - list of errors/success messages
 $errors = [];
 $success = [];
@@ -54,9 +50,13 @@ if (isset($_GET['id'])) {
         }
         
         if ($n) {
-            // updates item to the db
+            // First, delete any rows in `cart_item` that reference the product
+            $q = "DELETE FROM cart_item WHERE `product_id` = $id;";
+            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));    
+
+            // Then, delete the product itself
             $q = "DELETE FROM product WHERE `id` = $id;";
-            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));         
+            $r = mysqli_query($conn, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($conn));          
             
             if ($r) {
                 array_push($success, "Item has been removed!");

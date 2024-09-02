@@ -11,12 +11,6 @@ if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
     }
 }
 
-// for errors
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
-
 if (isset($_GET['id'])) {
 
     $cart_id = $_GET['id'];
@@ -42,7 +36,7 @@ if (isset($_GET['id'])) {
     require_once'header.php';
     ?>
 
-    <p class="h1 fw-bold px-5">Dashboard</p>
+    <p class="h1 fw-bold px-5">Items</p>
     
     <div class="dash_btn">
         <a href="viewcarts.php" class="text-decoration-none">

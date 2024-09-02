@@ -11,11 +11,6 @@ if (isset($_SESSION['login']) || !isset($_SESSION['login'])) {
     }
 }
 
-// for errors
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 $true = 1;
 
 $q = "SELECT cart.id AS cart_id, cart.total_price, cart.pending, cart.approved, cart.modified_at, user.email, user.id AS user_id FROM `cart`
